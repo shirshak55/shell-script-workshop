@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Shell Scripting</title>
+
+        <meta name="description" content="Measuring the kwh in a ergonomic way" />
+        <meta name="author" content="Shirshak Bajgain" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+        />
+
+        <link rel="stylesheet" href="css/reveal.css" />
+        <link rel="stylesheet" href="css/theme/moon.css" id="theme" />
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement("link")
+            link.rel = "stylesheet"
+            link.type = "text/css"
+            link.href = window.location.search.match(/print-pdf/gi)
+                ? "css/print/pdf.css"
+                : "css/print/paper.css"
+            document.getElementsByTagName("head")[0].appendChild(link)
+        </script>
+
+        <!--[if lt IE 9]>
+            <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="reveal">
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section data-background-image="images/2D_affine_xforms.svg">
+                    <h1>Shell Scripting (Linux)</h1>
+                    <h3>Presentation on Bash Shell Scripting</h3>
+                    <p>
+                        <small
+                            ><a href="http://shirshak.dev">Shirshak Bajgain</a> /
+                            <a href="mailto:shirshak55@gmail.com">@shirshak55</a></small
+                        >
+                    </p>
+                    <p style="font-size: 80%">
+                        <small>Press <code>?</code> for presentation controls.</small><br />
+                        <small
+                            >Best viewed in <a href="http://www.firefox.com/">Firefox</a>,
+                            <a href="http://www.google.com/chrome/index.html">Chrome</a> or
+                            <a href="http://www.opera.com">Opera</a>.</small
+                        >
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Overview</h2>
+                    <h4>Why do we need shell script?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>We work on headless server</li>
+                            <li>Easier to scale and manage</li>
+                            <li>Somewhat faster</li>
+                            <li>Better for Experts</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>GNU(GNU Not Unix) Core Utils</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Core Bundle of Utilities to provide unix like environment</li>
+                            <li>SUS(Single Unix Specification) v4</li>
+                            <li>
+                               Contains utilties for:
+                            </li>
+                            <li>Handling Files(everything is file in linux) (ls, cat, touch)</li>
+                            <li>Manipulating/searching text (sed, awk, grep)</li>
+                            <li>Managing Process(ps, pstree)</li>
+
+                            <li>Examples: ls, cat, echo etc..</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Different types of shell?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Sh</li>
+                            <li>Bash</li>
+                            <li>Zsh</li>
+                            <li>Power Shell</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Accessing CLI?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>We execute shell scripts mostly from Linux Console.</li>
+                            <li>In Linux there are many virtual consoles (tty1, tty2).</li>
+                            <li>Use w as command to know which tty we are in.</li>
+                            <li>tty stands for teletypewrite which is an old term to indicate machine is used for sending messages.</li>
+                            <li>Ergonomic to user eg. User can use phone or email to login etc.</li>
+                            <li> I am using windows terminal as cli ( command line interface).</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Bash Shell?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Bash stands for Bourne Again Shell</li>
+                            <li>Successor of SH shell</li>
+                            <li>
+                               To find which shell we are using we can cat /etc/passwd
+                            </li>
+                            <li>
+                               To find documention related to utilities we can use man pages
+                            </li>
+                            <li>Eg. man cat</li>
+                            <li>In man pages with default pager we use q to quit, j and k to move up and down similar to vim</li>
+                            <li>Vim is text editor like notepad</li>
+                            <li>Linux man pages has various sections like section 2 is for syscalls, 3 for library calls etc.</li>
+                            <li> For Shell scripting we are mostly interested in section 1 which is for executable or shell programs</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Travering Directories?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>We use change directory command(cd)</li>
+                            <li>To list directories contents we can use ls command (ls -alh displays more info)</li>
+                            <li>To find current working directory we can use pwd (Presently Working Directory) command</li>
+                            <li>There are two way to traverse directory using absolute and relative references</li>
+                            <li>Absolute addressing starts with forward slash (/) </li>
+                            <li>Two special directory called . and .. are included in every directories to help with relative references</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Travering Directories?</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>We use change directory command(cd)</li>
+                            <li>To list directories contents we can use ls command (ls -alh displays more info)</li>
+                            <li>To find current working directory we can use pwd (Presently Working Directory) command</li>
+                            <li>There are two way to traverse directory using absolute and relative references</li>
+                            <li>Absolute addressing starts with forward slash (/) </li>
+                            <li>Two special directory called . and .. are included in every directories to help with relative references</li>
+                            <li>In commands like ls (list) and rm (remove) we can also use wildcard charactor like * or ?</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Handling Files</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>To create a new empty file we can use touch filename</li>
+                            <li>To copy file we use cp</li>
+                            <li>To copy whole directory we need to use -r option. cp -r directory destination_directory</li>
+                            <li>To remove file or directory we use remove (rm) command</li>
+                            <li>Directory are also especial file in linux</li>
+                            <li>To move file we use mv command</li>
+                            <li>To rename we again use mv command</li>
+                            <li>To create a link we use link(ln) command</li>
+                            <li>To create directory we use mkdir</li>
+                            <li>To create nested directory we use -p option on mkdir command. (mkdir -p hello/world/hello)</li>
+                            <li>Tree command can be useful to visualize the directory structure</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                
+                <section>
+                    <h4>Handling Files(Continued)</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                           <li>To View File we can use cat command. `cat filename`</li>
+                           <li>To view file with line numbers we use -n option with cat command. `cat -n filename`</li>
+                           <li>more,head and less command can be useful for large files</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Process</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                           <li>We use ps command to monitor proccess</li>
+                           <li>we use kill command to send singal like kill etc. 9 is most power singal to kill process using process id(pid)</li>
+                           <li>We can also use killall command to kill process using name</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Storage</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Various utilities</li>
+                           <li>du (disk usuage for specific directory)</li>
+                           <li>mount</li>
+                           <li>Kuhpc uses lustre so our mount commands looks like mount -t lustre /dev/...</li>
+                           <li>fdisk</li>
+                           <li>df -h (shows how much disk is avail)</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Text Manipulation</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Sort command</li>
+                            <li>There is subtle problem with sort command when sorting numbers. For that we can use -n command. -M for month sort (used on log files)</li>
+                            <li>Useful Options for sort program</li>
+                            <li>-b ignores leading blank space</li>
+                            <li>-d for dictionary order</li>
+                            <li>--merge merges two sorted file</li>
+                            <li>-k sorts based on position</li>
+                            <li>-t changes specifies the separator</li>
+                            <li>-r for reverse order</li>
+                            <li>Example of sorting passwd file according to numerical userid</li>
+                            <li>sort -t ':' -k 3 -n /etc/passwd</li>
+                            <li>du -sh * | sort -nr</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Grep</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>There is better alternative to grep called ripgrep command</li>
+                            <li>It is used to search for data inside file</li>
+                            <li>Format: grep [options] pattern [file]</li>
+                            <li>Eg: grep root /etc/passwd</li>
+                            <li>To reverse the search we use -v option</li>
+                            <li>To know count of search we can use -c option</li>
+                            <li>We can use regular expression (unix style regex). </li>
+                        </ul>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h4>Your first shell script</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>vim hello</li>
+                            <pre>
+                                #!/bin/bash 
+                                echo "Hello World"
+                                echo $UID
+                                echo Home: $HOME
+                                var=123
+                                var2=$(var) # interpolation
+                            </pre>
+                            <li>chmod +x hello</li>
+                            <li>./hello</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Redirection</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <pre>
+                             date > today_date.txt
+                            </pre>
+                            <li>cat today_date.txt</li>
+
+                            <li>To append use >> instead of >. so `date >> today_date.txt`</li>
+
+                            <li>To input we use < (less than symbol)</li>
+                            <li>wc < today_date.txt</li>
+
+                            <li>Inline redirection or Heredoc</li>
+                            <pre>
+                                wc << EOF
+                                test1
+                                test2
+                                EOF
+                            </pre>
+
+                            <li>To send output on one command as input to another program we can use pipe `|` </li>
+                            <li>cat today_date.txt | sort | more</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Redirection</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>To perform math we can use expr</li>
+                            <pre>
+                                expr 1 + 1
+                                expr  1 | 0
+                                expr 0 & 1
+                            </pre>
+                            <p>We can use big bracket [] instead of expr like this</p>
+                            <pre>
+                                variable=$[1+1]
+                            </pre>
+
+                            <p>For floating point we can use `bc` also known as bash calculator</p>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Branches</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Every shell scripts should return exit status to know if the command was succesfull or not</li>
+                            <pre>
+                                if command 
+                                then 
+                                    ...... 
+                                fi
+                            </pre>
+
+                            <pre>
+                                if command 
+                                then 
+                                    ......
+                                else 
+                                .... 
+                                fi
+                            </pre>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Examples</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <pre>
+                                value=1
+                                if [$value -gt 4]  
+                                then
+                                    echo "Value is greator than 4"
+                                fi
+                            </pre>
+                            <li>We can use -gt, -eq , -ne, -le, -ge , -lt for numerical comparisions </li>
+                            <li>For strings we can use = , !=, < , > , -n (length greator than 0), -z (length of zeo)</li>
+                            <li> To check if file or directory exists or not we can use -e</li>
+                            <li>To check for empty file we can use -s</li>
+                            <li>-w checks if user has permission to write file or not</li>
+                            <li>-x checks if user has permission to execute file or not</li>
+                            <li>-O checks if current user is owner of file or not</li>
+                            <pre>
+                                home=/home/quantum
+
+                                if [ -e $home ]
+                                    echo "quantum home exists"
+                                fi
+                            </pre>
+
+                            <li>To be sure its file then we can use -f instead of -e</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Loops</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                         <pre>
+                            for letter in a b c d e 
+                            do    
+                                echo  "The letter is $letter"
+                            done
+                         </pre>
+
+                         <li>Reading from file</li>
+                         <pre>
+                             #!/bin/bash 
+                             letters_file="letters.txt"
+
+                             for letter in $(cat $letter_file)
+                             do 
+                                echo "The letter is $letter"
+                             done
+                         </pre>
+                        </ul>
+                        <li>Bash uses space as IFS (Internal Field separtor) which we can change by overriding variable</li>
+                        <pre>
+                            IFS=$'\n'
+                        </pre>
+                    </ul>
+                </section>
+
+                
+                <section>
+                    <h4>C Style Loop</h4>
+                    <ul>
+                        <ul style="text-align: left">  
+                            <pre>
+                                for(( i = 0; i <= 5; i++ ))
+                                do
+                                    echo $i
+                                done
+                            </pre>
+
+                            <pre>
+                                var=1
+                                while [ $var -lt 10]
+                                do
+                                    echo $var1
+                                    var1=$[$var + 1]
+                                done
+                            </pre>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Reading User Input</h4>
+                    <ul>
+                        <ul style="text-align: left">  
+                            <li>Users inputs passed on command line argument are available as $0, $1 etc.</li>
+                            <li>Use -n to check if command line args are available or not</li>
+                            <li>$# gives number of parameter passed to shell script</li>
+                            <li>For advance cli args handling we can use getopt</li>
+                        </ul>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h4>Sed</h4>
+                    <ul>
+                        <ul style="text-align: left">  
+                            <li>Stream editor(sed) applies maniuplates data or datastream based on supplied rules</li>
+                            <li>echo "Hello World" | sed 's/Hello/Trello/'</li>
+                            <li>To apply multiple rules use -e</li>
+                            <li>echo "Hello World" | sed -e 's/Hello/Trello/; s/World/cat/'</li>
+                            <li>To delete three line we can use d:</li>
+                            <li>`sed '3d'`</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Awk</h4>
+                    <ul>
+                        <ul style="text-align: left">  
+                            <li>More advance than sed editor</li>
+                            <li>echo "Hello World" | sed 's/Hello/Trello/'</li>
+                            <li>To apply multiple rules use -e</li>
+                            <li>echo "Hello World" | sed -e 's/Hello/Trello/; s/World/cat/'</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Exit status</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Every shell scripts should return exit status to know if the command was succesfull or not</li>
+                            <pre>
+                                who 
+                                echo $?
+                            </pre>
+
+                            <li>0 means succesfully completed and other than 0 usually means error like 1 means unknown error</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>What happened when we execute the shell script</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Parent Shell uses syscall and calls execve</li>
+                            <li>The new bash shell is created (considering we are invoking from bash shell)</li>
+                            <li>Our shell script gets executed</li>
+                            <li>After that Linux cleans up and goes back to parent shell</li>
+                            <li>`ps --forest`</li>
+                        </ul>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h4>Shell Scrips</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>Variables `my_var=10`</li>
+                            <li>echo $my_var</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h4>Running Shell Script Easily</h4>
+                    <ul>
+                        <ul style="text-align: left">
+                            <li>echo $PATH</li>
+                            <li>PATH=$PATH:/home/quantum/shell_scripts</li>
+                            <li>We can put it in .bashrc file</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Thank You so much for being here</h1>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                keyboard: true,
+                overview: true,
+                center: true,
+                touch: true,
+                mouseWheel: true,
+                hideAddressBar: true,
+                transition: "convex", // none/fade/slide/convex/concave/zoom
+
+                math: {
+                    config: "TeX-AMS-MML_SVG", // See http://docs.mathjax.org/en/latest/config-files.html
+                },
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    {
+                        src: "lib/js/classList.js",
+                        condition: function () {
+                            return !document.body.classList
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/marked.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]")
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/markdown.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]")
+                        },
+                    },
+                    {
+                        src: "plugin/highlight/highlight.js",
+                        async: true,
+                        condition: function () {
+                            return !!document.querySelector("pre code")
+                        },
+                        callback: function () {
+                            hljs.initHighlightingOnLoad()
+                        },
+                    },
+                    { src: "plugin/notes/notes.js", async: true },
+                    { src: "plugin/math/math.js", async: true },
+                ],
+            })
+        </script>
+    </body>
+</html>
