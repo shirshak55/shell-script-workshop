@@ -251,12 +251,12 @@
                         <ul style="text-align: left">
                             <li>vim hello</li>
                             <pre>
-                                #!/bin/bash 
-                                echo "Hello World"
-                                echo $UID
-                                echo Home: $HOME
-                                var=123
-                                var2=$(var) # interpolation
+#!/bin/bash 
+echo "Hello World"
+echo $UID
+echo Home: $HOME
+var=123
+var2=$(var) # interpolation
                             </pre>
                             <li>chmod +x hello</li>
                             <li>./hello</li>
@@ -269,7 +269,7 @@
                     <ul>
                         <ul style="text-align: left">
                             <pre>
-                             date > today_date.txt
+date > today_date.txt
                             </pre>
                             <li>cat today_date.txt</li>
 
@@ -280,10 +280,10 @@
 
                             <li>Inline redirection or Heredoc</li>
                             <pre>
-                                wc << EOF
-                                test1
-                                test2
-                                EOF
+wc << EOF
+test1
+test2
+EOF
                             </pre>
 
                             <li>To send output on one command as input to another program we can use pipe `|` </li>
@@ -298,9 +298,9 @@
                         <ul style="text-align: left">
                             <li>To perform math we can use expr</li>
                             <pre>
-                                expr 1 + 1
-                                expr  1 | 0
-                                expr 0 & 1
+expr 1 + 1
+expr  1 | 0
+expr 0 & 1
                             </pre>
                             <p>We can use big bracket [] instead of expr like this</p>
                             <pre>
@@ -317,18 +317,18 @@
                     <ul>
                         <ul style="text-align: left">
                             <pre>
-                                if command 
-                                then 
-                                    ...... 
-                                fi
+if command 
+then 
+    ...... 
+fi
                             </pre>
 
                             <pre>
-                                if command 
-                                then 
-                                    ......
-                                else 
-                                .... 
+if command 
+then 
+    ......
+else 
+.... 
                                 fi
                             </pre>
                         </ul>
@@ -340,11 +340,11 @@
                     <ul>
                         <ul style="text-align: left">
                             <pre>
-                                value=1
-                                if [$value -gt 4]  
-                                then
-                                    echo "Value is greator than 4"
-                                fi
+value=1
+if [$value -gt 4]  
+then
+    echo "Value is greator than 4"
+fi
                             </pre>
                             <li>We can use -gt, -eq , -ne, -le, -ge , -lt for numerical comparisions </li>
                             <li>For strings we can use = , !=, < , > , -n (length greator than 0), -z (length of zero)</li>
@@ -354,11 +354,11 @@
                             <li>-x checks if user has permission to execute file or not</li>
                             <li>-O checks if current user is owner of file or not</li>
                             <pre>
-                                home=/home/quantum
+home=/home/quantum
 
-                                if [ -e $home ]
-                                    echo "quantum home exists"
-                                fi
+if [ -e $home ]
+    echo "quantum home exists"
+fi
                             </pre>
 
                             <li>To be sure its file then we can use -f instead of -e</li>
@@ -371,21 +371,21 @@
                     <ul>
                         <ul style="text-align: left">
                          <pre>
-                            for letter in a b c d e 
-                            do    
-                                echo  "The letter is $letter"
-                            done
+for letter in a b c d e 
+do    
+    echo  "The letter is $letter"
+done
                          </pre>
 
                          <li>Reading from file</li>
                          <pre>
-                             #!/bin/bash 
-                             letters_file="letters.txt"
+#!/bin/bash 
+letters_file="letters.txt"
 
-                             for letter in $(cat $letter_file)
-                             do 
-                                echo "The letter is $letter"
-                             done
+for letter in $(cat $letter_file)
+do 
+echo "The letter is $letter"
+done
                          </pre>
                         </ul>
                         <li>Bash uses space as IFS (Internal Field separtor) which we can change by overriding variable</li>
@@ -401,19 +401,19 @@
                     <ul>
                         <ul style="text-align: left">  
                             <pre>
-                                for(( i = 0; i <= 5; i++ ))
-                                do
-                                    echo $i
-                                done
+for(( i = 0; i <= 5; i++ ))
+do
+    echo $i
+done
                             </pre>
 
                             <pre>
-                                var=1
-                                while [ $var -lt 10]
-                                do
-                                    echo $var1
-                                    var1=$[$var + 1]
-                                done
+var=1
+while [ $var -lt 10]
+do
+    echo $var1
+    var1=$[$var + 1]
+done
                             </pre>
                         </ul>
                     </ul>
